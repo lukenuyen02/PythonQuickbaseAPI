@@ -1,53 +1,87 @@
+# Import pandas
 import pandas as pd
-from pandas import DataFrame  # sort - ascending order
+"""
+Combine ICT and Bible 
+"""
+list_found_name = []            # this is the name that match in bible and ict
 
-fname = []
-lname = []
-list_fc1 =[]
-list_num1 =[]
-list_fc2 =[]
-list_num2 =[]
-list_fob1 =[]
-list_fob1num =[]
+bible_read = pd.read_excel('Bible.xlsx')
 
-# read the bible and read the ict
-read_bible = pd.read_csv('ICT_Compare.csv')
-read_ict = pd.read_excel('ICT.xlsx')
+ict_read = pd.read_excel('C:/Users/lnguyen/Documents/Los Alisos and Robles Combined Users from ICT (2019-11-25).xlsx')
 
-# iterate through 2 excel file
-bible = pd.DataFrame(read_bible, columns=['Last Name',
-                                            'First Name',
-                                            'Facility/Card Number 1',
-                                            'Facility/Card Number 2',
-                                            'Facility/Card Number 3'])
-ict = pd.DataFrame(read_ict, columns=['Last Name',
-                                      'First Name',
-                                      'Facility/Card Number 1',
-                                      'Facility/Card Number 2',
-                                      'Facility/Card Number 3'])
+# apply data frame to the python
+bible_df = pd.DataFrame(bible_read, columns=['Last Name',
+                                             'First Name',
+                                             'FC 1',
+                                             'FC 2',
+                                             'FC 3',
+                                             'FC 4'])
+# combine first name and last name
+bible_df['Name'] = bible_df.apply(lambda x:'%s %s' % (x['Last Name'],x['First Name']),axis=1)
+ict_df = pd.DataFrame(ict_read, columns=['Last Name',
+                                         'First Name',
+                                         'Facility/Card Number 1',
+                                         'Facility/Card Number 2',
+                                         'Facility/Card Number 3',
+                                         'Facility/Card Number 4',
+                                         'Index'])
+ict_df['Name'] = ict_df.apply(lambda x:'%s %s' % (x['Last Name'],x['First Name']),axis=1)
+# replace the NULL value to 0:0 to match the Bible table
+ict_df['Facility/Card Number 1'].fillna("0:0", inplace=True)
+ict_df['Facility/Card Number 2'].fillna("0:0", inplace=True)
+ict_df['Facility/Card Number 3'].fillna("0:0", inplace=True)
+ict_df['Facility/Card Number 4'].fillna("0:0", inplace=True)
 
-print("Given Dataframe of Bible :\n", bible.sort_values(by=['Last Name']))
+# Sort the data by Last Name
+# bible_sort = bible_df.sort_values(by=['Last Name'])
+# ict_sort = ict_df.sort_values(by=['Last Name'])
 
-print("Given Dataframe of ICT :\n", ict.sort_values(by=['Last Name']))
+# put it next to each other
+# print(bible_df)
+# print(ict_df)
 
-count_the_match = 0
-# iterate through each row and select
-# Check from bible to ict
-for bible_name in bible.index:
-    for ict_name in ict.index:
-        # if the name appeal in both Excel file (is a match), it mean the Key Fob need to be check
-        if ict['Last Name'][ict_name] == bible['Last Name'][bible_name] and ict['First Name'][ict_name] == bible['First Name'][bible_name]:
-            count_the_match += 1 # 635
-            # key fob check
-            if bible['Facility/Card Number 1'][bible_name] != ict['Facility/Card Number 1'][ict_name] or \
-                    bible['Facility/Card Number 2'][bible_name] != ict['Facility/Card Number 2'][ict_name] or \
-                    bible['Facility/Card Number 3'][bible_name] != ict['Facility/Card Number 3'][ict_name]:
-                # This is incorrect in the ICT, mark as 1
-                break
-            else:
-                # the name and the key fob is in both excel no mark as 0
-        else:
-            # not match
-            #i ts mean that the name in the bible did not ADD in ICT
-            continue
-print("Total match: ", count_the_match)
+# merge for the same name
+df_merge = pd.merge(bible_df, ict_df, on='Name')
+
+# keep the Name column with the credential
+df_merge_result = pd.DataFrame(df_merge, columns=['Name',
+                                                  'FC 1',
+                                                  'FC 2',
+                                                  'FC 3',
+                                                  'FC 4',
+                                                  'Facility/Card Number 1',
+                                                  'Facility/Card Number 2',
+                                                  'Facility/Card Number 3',
+                                                  'Facility/Card Number 4',
+                                                  'Index'])
+# for index, row in df_merge_result.iterrows():
+#     if row['FC 1'] != "0:0" and row['FC 1'] == row['Facility/Card Number 1'] or \
+#        row['FC 1'] != "0:0" and row['FC 1'] == row['Facility/Card Number 2'] or \
+#        row['FC 1'] != "0:0" and row['FC 1'] == row['Facility/Card Number 3'] or \
+#        row['FC 1'] != "0:0" and row['FC 1'] == row['Facility/Card Number 4']:
+#         list_found_name.append("Match!")
+#     elif row['FC 2'] != "0:0" and row['FC 2'] == row['Facility/Card Number 1'] or \
+#          row['FC 2'] != "0:0" and row['FC 2'] == row['Facility/Card Number 2'] or \
+#          row['FC 2'] != "0:0" and row['FC 2'] == row['Facility/Card Number 3'] or \
+#          row['FC 2'] != "0:0" and row['FC 2'] == row['Facility/Card Number 4']:
+#         list_found_name.append("Match!")
+#     elif row['FC 3'] != "0:0" and row['FC 3'] == row['Facility/Card Number 1'] or \
+#          row['FC 3'] != "0:0" and row['FC 3'] == row['Facility/Card Number 2'] or \
+#          row['FC 3'] != "0:0" and row['FC 3'] == row['Facility/Card Number 3'] or \
+#          row['FC 3'] != "0:0" and row['FC 3'] == row['Facility/Card Number 4']:
+#         list_found_name.append("Match!")
+#     elif row['FC 4'] != "0:0" and row['FC 4'] == row['Facility/Card Number 1'] or \
+#          row['FC 4'] != "0:0" and row['FC 4'] == row['Facility/Card Number 2'] or \
+#          row['FC 4'] != "0:0" and row['FC 4'] == row['Facility/Card Number 3'] or \
+#          row['FC 4'] != "0:0" and row['FC 4'] == row['Facility/Card Number 4']:
+#         list_found_name.append("Match!")
+#     else:
+#         list_found_name.append("Un-Match!")
+
+
+print(list_found_name)
+print(len(list_found_name))
+# Write a new Excel File
+writer = pd.ExcelWriter('ICT-Bible.xlsx', engine='xlsxwriter')
+export_excel = df_merge_result.to_excel(writer,'Sheet1',index=True)
+writer.save()
