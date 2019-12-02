@@ -47,10 +47,10 @@ for index,row in df.iterrows():
         list_fob2num.append(str(int(row['Fob 2 Num.'])))
 
 # mapping 2 list(column) to 1 new list
-fc_num_1 = [i + ":" + j for i, j in zip(list_fc1, list_num1)]
-fc_num_2 = [i + ":" + j for i, j in zip(list_fc2, list_num2)]
-fob_num1 = [i + ":" + j for i, j in zip(list_fob1, list_fob1num)]
-fob_num2 = [i + ":" + j for i, j in zip(list_fob2, list_fob2num)]
+fc_num_1 = [" " + i + ":" + j for i, j in zip(list_fc1, list_num1)]
+fc_num_2 = [" " + i + ":" + j for i, j in zip(list_fc2, list_num2)]
+fob_num1 = [" " + i + ":" + j for i, j in zip(list_fob1, list_fob1num)]
+fob_num2 = [" " + i + ":" + j for i, j in zip(list_fob2, list_fob2num)]
 
 # add 3 new list to 1 data frame
 data = {

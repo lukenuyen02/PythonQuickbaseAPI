@@ -1,5 +1,6 @@
 # Import pandas
 import pandas as pd
+import numpy as np
 """
 Combine ICT and Bible 
 """
@@ -44,7 +45,9 @@ ict_df['Facility/Card Number 4'].fillna("0:0", inplace=True)
 df_merge = pd.merge(bible_df, ict_df, on='Name')
 
 # keep the Name column with the credential
-df_merge_result = pd.DataFrame(df_merge, columns=['Name',
+df_merge_result = pd.DataFrame(df_merge, columns=[
+                                                  # 'Name',
+                                                  # 'Index',
                                                   'FC 1',
                                                   'FC 2',
                                                   'FC 3',
@@ -52,29 +55,32 @@ df_merge_result = pd.DataFrame(df_merge, columns=['Name',
                                                   'Facility/Card Number 1',
                                                   'Facility/Card Number 2',
                                                   'Facility/Card Number 3',
-                                                  'Facility/Card Number 4',
-                                                  'Index'])
+                                                  'Facility/Card Number 4'])
+
+# df_merge_result['KFMatch?'] = np.where(df_merge_result['FC 1'] == df_merge_result['Facility/Card Number 1'], 'True', 'False')
+# iterating over rows using iterrows() function
 # for index, row in df_merge_result.iterrows():
-#     if row['FC 1'] != "0:0" and row['FC 1'] == row['Facility/Card Number 1'] or \
-#        row['FC 1'] != "0:0" and row['FC 1'] == row['Facility/Card Number 2'] or \
-#        row['FC 1'] != "0:0" and row['FC 1'] == row['Facility/Card Number 3'] or \
-#        row['FC 1'] != "0:0" and row['FC 1'] == row['Facility/Card Number 4']:
+# #     for elm in
+#     if row['FC 1'] == " 0:0":
+#         pass
+#     elif row['FC 1'] == row['Facility/Card Number 1'] or row['FC 1'] == row['Facility/Card Number 2'] or row['FC 1'] == row['Facility/Card Number 3'] or row['FC 1'] == row['Facility/Card Number 4']:
 #         list_found_name.append("Match!")
-#     elif row['FC 2'] != "0:0" and row['FC 2'] == row['Facility/Card Number 1'] or \
-#          row['FC 2'] != "0:0" and row['FC 2'] == row['Facility/Card Number 2'] or \
-#          row['FC 2'] != "0:0" and row['FC 2'] == row['Facility/Card Number 3'] or \
-#          row['FC 2'] != "0:0" and row['FC 2'] == row['Facility/Card Number 4']:
+#         print(row['FC 1'])
+#     elif row['FC 2'] == " 0:0":
+#         pass
+#     elif row['FC 2'] == row['Facility/Card Number 1'] or row['FC 2'] == row['Facility/Card Number 2'] or row['FC 2'] == row['Facility/Card Number 3'] or row['FC 2'] == row['Facility/Card Number 4']:
 #         list_found_name.append("Match!")
-#     elif row['FC 3'] != "0:0" and row['FC 3'] == row['Facility/Card Number 1'] or \
-#          row['FC 3'] != "0:0" and row['FC 3'] == row['Facility/Card Number 2'] or \
-#          row['FC 3'] != "0:0" and row['FC 3'] == row['Facility/Card Number 3'] or \
-#          row['FC 3'] != "0:0" and row['FC 3'] == row['Facility/Card Number 4']:
+#         print(row['FC 2'])
+#     elif row['FC 3'] == " 0:0":
+#         pass
+#     elif row['FC 3'] == row['Facility/Card Number 1'] or row['FC 3'] == row['Facility/Card Number 2'] or row['FC 3'] == row['Facility/Card Number 3'] or row['FC 3'] == row['Facility/Card Number 4']:
 #         list_found_name.append("Match!")
-#     elif row['FC 4'] != "0:0" and row['FC 4'] == row['Facility/Card Number 1'] or \
-#          row['FC 4'] != "0:0" and row['FC 4'] == row['Facility/Card Number 2'] or \
-#          row['FC 4'] != "0:0" and row['FC 4'] == row['Facility/Card Number 3'] or \
-#          row['FC 4'] != "0:0" and row['FC 4'] == row['Facility/Card Number 4']:
+#         print(row['FC 3'])
+#     elif row['FC 4'] == " 0:0":
+#         pass
+#     elif row['FC 4'] == row['Facility/Card Number 1'] or row['FC 4'] == row['Facility/Card Number 2'] or row['FC 4'] == row['Facility/Card Number 3'] or row['FC 4'] == row['Facility/Card Number 4']:
 #         list_found_name.append("Match!")
+#         print(row['FC 4'])
 #     else:
 #         list_found_name.append("Un-Match!")
 
