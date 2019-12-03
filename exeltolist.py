@@ -4,7 +4,7 @@ df = pd.read_excel("C:/Users/lnguyen/Downloads/AR.xlsx")
 list1 = list(df['service_aging'])
 list2 = list(df['number'])
 list4 = list(df['name'])
-list5 = list(df['name'])
+list5 = list(df['type'])
 for data in list1:
     if data is None:
         pass
@@ -17,12 +17,13 @@ for data in list1:
 # print(list2)
 
 df1 = {
-    'service_aging':list3,
+    'service_aging': list3,
     'number': list2,
-    'name': list4
+    'name': list4,
+    'type': list5
 }
 
-df2 = pd.DataFrame(df1, columns = ['number', 'service_aging', 'name'])
+df2 = pd.DataFrame(df1, columns = ['number', 'service_aging', 'type', 'name'])
 with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
     print(df2)
 # print(df2)
